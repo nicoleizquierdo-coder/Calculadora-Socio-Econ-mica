@@ -107,7 +107,7 @@ with col6_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 3: PERSONAS EN FAMILIA
+# PREGUNTA 3: PERSONAS EN FAMILIA (Corregido .jpg)
 # ==========================================
 st.markdown("### 3. Personas en familia")
 if "familia_final" not in st.session_state:
@@ -115,7 +115,7 @@ if "familia_final" not in st.session_state:
 
 col7_img, col7_btn = st.columns([1, 6])
 with col7_img:
-    cargar_imagen_segura("familia_1.png", "🏡")
+    cargar_imagen_segura("familia_1.jpg", "🏡")  # Corregido a .jpg
 with col7_btn:
     label_f1 = "🟢 1-2 personas" if st.session_state.familia_final == "1-2 personas" else "⚪ 1-2 personas"
     if st.button(label_f1, key="btn_f1", use_container_width=True):
@@ -287,7 +287,7 @@ with col21_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 8: MATERIALES DE LA VIVIENDA (CRÍTICO)
+# PREGUNTA 8: MATERIALES DE LA VIVIENDA (Corregidos .jpg)
 # ==========================================
 st.markdown("### 8. Materiales de la vivienda (Crítico)")
 if "material_final" not in st.session_state:
@@ -295,7 +295,7 @@ if "material_final" not in st.session_state:
 
 col22_img, col22_btn = st.columns([1, 6])
 with col22_img:
-    cargar_imagen_segura("material_1.png", "🧱")
+    cargar_imagen_segura("material_1.jpg", "🧱")  # Corregido a .jpg
 with col22_btn:
     label_mat1 = "🟢 Hormigón / Ladrillo" if st.session_state.material_final == "Hormigón / Ladrillo" else "⚪ Hormigón / Ladrillo"
     if st.button(label_mat1, key="btn_mat1", use_container_width=True):
@@ -304,7 +304,7 @@ with col22_btn:
 
 col23_img, col23_btn = st.columns([1, 6])
 with col23_img:
-    cargar_imagen_segura("material_2.png", "⚪")
+    cargar_imagen_segura("material_2.png", "⚪")  # Mantiene .png
 with col23_btn:
     label_mat2 = "🟢 N/A" if st.session_state.material_final == "N/A" else "⚪ N/A"
     if st.button(label_mat2, key="btn_mat2", use_container_width=True):
@@ -313,7 +313,7 @@ with col23_btn:
 
 col24_img, col24_btn = st.columns([1, 6])
 with col24_img:
-    cargar_imagen_segura("material_3.png", "🪵")
+    cargar_imagen_segura("material_3.jpg", "🪵")  # Corregido a .jpg
 with col24_btn:
     label_mat3 = "🟢 Madera, caña, etc." if st.session_state.material_final == "Madera, caña, etc." else "⚪ Madera, caña, etc."
     if st.button(label_mat3, key="btn_mat3", use_container_width=True):
@@ -323,7 +323,7 @@ with col24_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 9: TENENCIA VIVIENDA (CRÍTICO)
+# PREGUNTA 9: TENENCIA VIVIENDA (Emojis temporales)
 # ==========================================
 st.markdown("### 9. Tenencia vivienda (Crítico)")
 if "tenencia_final" not in st.session_state:
@@ -359,7 +359,7 @@ with col27_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 10: EXISTENCIA DE ENFERMEDADES (CRÍTICO)
+# PREGUNTA 10: EXISTENCIA DE ENFERMEDADES (Emojis temporales)
 # ==========================================
 st.markdown("### 10. Existencia de Enfermedades (Crítico)")
 if "enfermedad_final" not in st.session_state:
@@ -395,7 +395,7 @@ with col30_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 11: SEGURIDAD SOCIAL (CRÍTICO)
+# PREGUNTA 11: SEGURIDAD SOCIAL (Emojis temporales)
 # ==========================================
 st.markdown("### 11. Seguridad Social (Crítico)")
 if "seguridad_social_final" not in st.session_state:
