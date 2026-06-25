@@ -389,4 +389,68 @@ with col30_img:
 with col30_btn:
     label_enf3 = "🟢 Si" if st.session_state.enfermedad_final == "Si" else "⚪ Si"
     if st.button(label_enf3, key="btn_enf3", use_container_width=True):
-        st.session_state.enfermedad_final = "
+        st.session_state.enfermedad_final = "Si"
+        st.rerun()
+
+st.write("---")
+
+# ==========================================
+# PREGUNTA 11: SEGURIDAD SOCIAL (CRÍTICO)
+# ==========================================
+st.markdown("### 11. Seguridad Social (Crítico)")
+if "seguridad_social_final" not in st.session_state:
+    st.session_state.seguridad_social_final = "Si"
+
+col31_img, col31_btn = st.columns([1, 6])
+with col31_img:
+    cargar_imagen_segura("seguridad_1.png", "✅")
+with col31_btn:
+    label_ss1 = "🟢 Si" if st.session_state.seguridad_social_final == "Si" else "⚪ Si"
+    if st.button(label_ss1, key="btn_ss1", use_container_width=True):
+        st.session_state.seguridad_social_final = "Si"
+        st.rerun()
+
+col32_img, col32_btn = st.columns([1, 6])
+with col32_img:
+    cargar_imagen_segura("seguridad_2.png", "🔸")
+with col32_btn:
+    label_ss2 = "🟢 N/A" if st.session_state.seguridad_social_final == "N/A" else "⚪ N/A"
+    if st.button(label_ss2, key="btn_ss2", use_container_width=True):
+        st.session_state.seguridad_social_final = "N/A"
+        st.rerun()
+
+col33_img, col33_btn = st.columns([1, 6])
+with col33_img:
+    cargar_imagen_segura("seguridad_3.png", "❌")
+with col33_btn:
+    label_ss3 = "🟢 No" if st.session_state.seguridad_social_final == "No" else "⚪ No"
+    if st.button(label_ss3, key="btn_ss3", use_container_width=True):
+        st.session_state.seguridad_social_final = "No"
+        st.rerun()
+
+st.write("---")
+
+# ==========================================
+# BOTÓN DE DESCARGA
+# ==========================================
+datos_a_guardar = (
+    f"=== RESUMEN DE RESPUESTAS ===\n"
+    f"1. Edad: {st.session_state.edad_final}\n"
+    f"2. Estado Civil: {st.session_state.civil_final}\n"
+    f"3. Personas en familia: {st.session_state.familia_final}\n"
+    f"4. Nivel educativo: {st.session_state.educacion_final}\n"
+    f"5. Tipo de empleo: {st.session_state.empleo_final}\n"
+    f"6. Tiene Vehículos: {st.session_state.vehiculo_final}\n"
+    f"7. Tiene Seguro Privado: {st.session_state.seguro_final}\n"
+    f"8. Materiales de la vivienda: {st.session_state.material_final}\n"
+    f"9. Tenencia vivienda: {st.session_state.tenencia_final}\n"
+    f"10. Existencia de Enfermedades: {st.session_state.enfermedad_final}\n"
+    f"11. Seguridad Social: {st.session_state.seguridad_social_final}\n"
+)
+
+st.download_button(
+    label="📥 Descargar respuestas en mi PC",
+    data=datos_a_guardar,
+    file_name="resumen_calculadora.txt",
+    mime="text/plain"
+)
