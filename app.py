@@ -88,4 +88,29 @@ col_img5, col_txt5 = st.columns([1, 8])
 with col_img5:
     st.image("estado_soltero.png", width=55)
 with col_txt5:
-    if st.radio(" ", ["Soltero"], key="r_civil2
+    if st.radio(" ", ["Soltero"], key="r_civil2", label_visibility="collapsed", index=0 if st.session_state.civil_seleccionado == "Soltero" else None):
+        st.session_state.civil_seleccionado = "Soltero"
+
+# Fila Opción 3
+col_img6, col_txt6 = st.columns([1, 8])
+with col_img6:
+    st.image("estado_divorciado.png", width=55)
+with col_txt6:
+    if st.radio(" ", ["Viudo / Divorciado"], key="r_civil3", label_visibility="collapsed", index=0 if st.session_state.civil_seleccionado == "Viudo / Divorciado" else None):
+        st.session_state.civil_seleccionado = "Viudo / Divorciado"
+
+
+st.write("---")
+
+
+# ==========================================
+# BOTÓN DE DESCARGA
+# ==========================================
+datos_a_guardar = f"=== RESUMEN DE RESPUESTAS ===\n• Rango de edad: {st.session_state.edad_seleccionada}\n• Estado civil:  {st.session_state.civil_seleccionado}\n"
+
+st.download_button(
+    label="📥 Descargar respuestas en mi PC",
+    data=datos_a_guardar,
+    file_name="resumen_calculadora.txt",
+    mime="text/plain"
+)
