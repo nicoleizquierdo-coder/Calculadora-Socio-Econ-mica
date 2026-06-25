@@ -3,28 +3,27 @@ import streamlit as st
 st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="centered")
 
 # ==========================================
-# 🎨 EL CSS DEFINITIVO: PUNTO VERDE Y LETRAS NEGRAS
+# 🎨 PERSONALIZACIÓN CSS (Color Verde y Alineación)
 # ==========================================
 st.markdown("""
     <style>
-        /* 1. Forzar color verde solo al punto circular seleccionado */
-        div[role="radiogroup"] [data-checked="true"] > div:first-child {
+        /* 1. Forzar color verde a las casillas seleccionadas */
+        div[data-testid="stCheckbox"] input[type="checkbox"]:checked + div {
+            background-color: #28a745 !important;
             border-color: #28a745 !important;
         }
-        div[role="radiogroup"] [data-checked="true"] > div:first-child::after {
-            background-color: #28a745 !important;
-        }
         
-        /* 2. Mantener las letras siempre negras */
-        div[role="radiogroup"] label p {
+        /* 2. Mantener el texto de las opciones siempre negro */
+        div[data-testid="stCheckbox"] label p {
             color: #31333F !important;
             font-weight: 500;
             font-size: 1.1rem !important;
         }
 
-        /* 3. Ajuste milimétrico de las imágenes para que se alineen con el texto */
-        div[data-testid="stVerticalBlock"] > div:has(img) {
-            margin-bottom: 25px !important; 
+        /* 3. Centrar verticalmente la imagen con la casilla de texto */
+        div[data-testid="stHorizontalBlock"] {
+            align-items: center !important;
+            margin-bottom: -10px !important;
         }
         
         .stDeployButton { display:none; }
@@ -32,60 +31,87 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("📊 Calculadora socio-económica")
-st.write("Selección única con un solo clic:")
+st.write("Por favor, selecciona tus opciones (Un solo clic - Selección única):")
 
 st.write("---")
 
 # ==========================================
-# PREGUNTA 1: EDAD (Un solo clic - Selección Única)
+# PREGUNTA 1: EDAD (Imagen y Letra amarradas por fila)
 # ==========================================
 st.markdown("### 1. Edad")
 
-col1_img, col1_rad = st.columns([1, 5])
+if "edad_final" not in st.session_state:
+    st.session_state.edad_final = "de 20 a 40 años"
 
-with col1_img:
-    # Colocamos las tres imágenes una debajo de la otra
-    st.image("edad_20.png", width=55)
-    st.image("edad_21.png", width=55)
-    st.image("edad_60.png", width=55)
+# Fila 1: Opción 1
+f1_c1, f1_c2 = st.columns([1, 10])
+with f1_c1:
+    st.image("edad_20.png", width=50)
+with f1_c2:
+    # Se marca sola si está activa en la memoria
+    if st.checkbox("de 20 a 40 años", value=(st.session_state.edad_final == "de 20 a 40 años"), key="chk_e1"):
+        st.session_state.edad_final = "de 20 a 40 años"
 
-with col1_rad:
-    # Un solo st.radio nativo: SOLUCIONA EL DOBLE CLIC y la selección múltiple
-    edad = st.radio(
-        "Selecciona rango de edad:",
-        ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
-        key="radio_edad",
-        label_visibility="collapsed"
-    )
+# Fila 2: Opción 2
+f2_c1, f2_c2 = st.columns([1, 10])
+with f2_c1:
+    st.image("edad_21.png", width=50)
+with f2_c2:
+    if st.checkbox("de 41 a 60 años", value=(st.session_state.edad_final == "de 41 a 60 años"), key="chk_e2"):
+        st.session_state.edad_final = "de 41 a 60 años"
+
+# Fila 3: Opción 3
+f3_c1, f3_c2 = st.columns([1, 10])
+with f3_c1:
+    st.image("edad_60.png", width=50)
+with f3_c2:
+    if st.checkbox("más de 60 años", value=(st.session_state.edad_final == "más de 60 años"), key="chk_e3"):
+        st.session_state.edad_final = "más de 60 años"
+
 
 st.write("---")
 
+
 # ==========================================
-# PREGUNTA 2: ESTADO CIVIL (Un solo clic - Selección Única)
+# PREGUNTA 2: ESTADO CIVIL (Imagen y Letra amarradas por fila)
 # ==========================================
 st.markdown("### 2. Estado Civil")
 
-col2_img, col2_rad = st.columns([1, 5])
+if "civil_final" not in st.session_state:
+    st.session_state.civil_final = "Casado"
 
-with col2_img:
-    st.image("estado_casado.png", width=55)
-    st.image("estado_soltero.png", width=55)
-    st.image("estado_divorciado.png", width=55)
+# Fila 1: Opción 1
+f4_c1, f4_c2 = st.columns([1, 10])
+with f4_c1:
+    st.image("estado_casado.png", width=50)
+with f4_c2:
+    if st.checkbox("Casado", value=(st.session_state.civil_final == "Casado"), key="chk_c1"):
+        st.session_state.civil_final = "Casado"
 
-with col2_rad:
-    estado_civil = st.radio(
-        "Selecciona tu Estado Civil:",
-        ["Casado", "Soltero", "Viudo / Divorciado"],
-        key="radio_civil",
-        label_visibility="collapsed"
-    )
+# Fila 2: Opción 2
+f5_c1, f5_c2 = st.columns([1, 10])
+with f5_c1:
+    st.image("estado_soltero.png", width=50)
+with f5_c2:
+    if st.checkbox("Soltero", value=(st.session_state.civil_final == "Soltero"), key="chk_c2"):
+        st.session_state.civil_final = "Soltero"
+
+# Fila 3: Opción 3
+f6_c1, f6_c2 = st.columns([1, 10])
+with f6_c1:
+    st.image("estado_divorciado.png", width=50)
+with f6_c2:
+    if st.checkbox("Viudo / Divorciado", value=(st.session_state.civil_final == "Viudo / Divorciado"), key="chk_c3"):
+        st.session_state.civil_final = "Viudo / Divorciado"
+
 
 st.write("---")
+
 
 # ==========================================
 # BOTÓN DE DESCARGA
 # ==========================================
-datos_a_guardar = f"=== RESUMEN ===\nEdad: {edad}\nEstado Civil: {estado_civil}"
+datos_a_guardar = f"=== RESUMEN ===\nEdad: {st.session_state.edad_final}\nEstado Civil: {st.session_state.civil_final}"
 
 st.download_button(
     label="📥 Descargar respuestas en mi PC",
