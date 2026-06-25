@@ -1,67 +1,73 @@
 import streamlit as st
 
-st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="centered")
+st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="wide")
 
 st.title("📊 Calculadora socio-económica")
-st.write("Por favor, selecciona tus opciones:")
+st.write("Por favor, selecciona tus opciones haciendo clic en el botón correspondiente:")
 
 st.write("---")
 
 # ==========================================
-# PREGUNTA 1: EDAD (Opciones con imágenes al lado)
+# PREGUNTA 1: EDAD (Las 3 opciones visibles a la vez con su foto)
 # ==========================================
 st.markdown("### 1. Edad")
 
-# Usamos columnas pequeñas para alinear la imagen al lado de la selección
-col_img1, col_opt1 = st.columns([1, 3])
+# Inicializamos la variable en el estado de Streamlit si no existe
+if "edad_elegida" not in st.session_state:
+    st.session_state.edad_elegida = "de 20 a 40 años" # Opción por defecto
 
-with col_opt1:
-    edad = st.radio(
-        "Selecciona tu rango de edad:",
-        ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
-        key="edad_radio"
-    )
+# Creamos 3 columnas para mostrar las 3 opciones juntas de izquierda a derecha
+col1, col2, col3 = st.columns(3)
 
-# Asignamos la imagen correspondiente según la selección para mostrarla al lado
-if edad == "de 20 a 40 años":
-    imagen_edad = "edad_20.png"
-elif edad == "de 41 a 60 años":
-    imagen_edad = "edad_21.png"
-else:
-    imagen_edad = "edad_60.png"
+with col1:
+    st.image("edad_20.png", width=120)
+    if st.button("Seleccionar: de 20 a 40 años", key="btn_edad1"):
+        st.session_state.edad_elegida = "de 20 a 40 años"
 
-with col_img1:
-    # Mostramos la imagen pequeña alineada a la izquierda
-    st.image(imagen_edad, width=100)
+with col2:
+    st.image("edad_21.png", width=120)
+    if st.button("Seleccionar: de 41 a 60 años", key="btn_edad2"):
+        st.session_state.edad_elegida = "de 41 a 60 años"
+
+with col3:
+    st.image("edad_60.png", width=120)
+    if st.button("Seleccionar: más de 60 años", key="btn_edad3"):
+        st.session_state.edad_elegida = "más de 60 años"
+
+# Mostramos cuál está seleccionada actualmente
+st.info(f"Selección actual de Edad: **{st.session_state.edad_elegida}**")
 
 
 st.write("---")
 
 
 # ==========================================
-# PREGUNTA 2: ESTADO CIVIL (Opciones con imágenes al lado)
+# PREGUNTA 2: ESTADO CIVIL (Las 3 opciones visibles a la vez con su foto)
 # ==========================================
 st.markdown("### 2. Estado Civil")
 
-col_img2, col_opt2 = st.columns([1, 3])
+if "civil_elegido" not in st.session_state:
+    st.session_state.civil_elegido = "Casado" # Opción por defecto
 
-with col_opt2:
-    estado_civil = st.radio(
-        "Selecciona tu Estado Civil:",
-        ["Casado", "Soltero", "Viudo / Divorciado"],
-        key="civil_radio"
-    )
+col4, col5, col6 = st.columns(3)
 
-if estado_civil == "Casado":
-    imagen_civil = "estado_casado.png"
-elif estado_civil == "Soltero":
-    imagen_civil = "estado_soltero.png"
-else:
-    imagen_civil = "estado_divorciado.png"
+with col4:
+    st.image("estado_casado.png", width=120)
+    if st.button("Seleccionar: Casado", key="btn_civil1"):
+        st.session_state.civil_elegido = "Casado"
 
-with col_img2:
-    # Mostramos la imagen pequeña alineada a la izquierda
-    st.image(imagen_civil, width=100)
+with col5:
+    st.image("estado_soltero.png", width=120)
+    if st.button("Seleccionar: Soltero", key="btn_civil2"):
+        st.session_state.civil_elegido = "Soltero"
+
+with col6:
+    st.image("estado_divorciado.png", width=120)
+    if st.button("Seleccionar: Viudo / Divorciado", key="btn_civil3"):
+        st.session_state.civil_elegido = "Viudo / Divorciado"
+
+# Mostramos cuál está seleccionada actualmente
+st.info(f"Selección actual de Estado Civil: **{st.session_state.civil_elegido}**")
 
 
 st.write("---")
@@ -70,7 +76,7 @@ st.write("---")
 # ==========================================
 # BOTÓN DE DESCARGA
 # ==========================================
-datos_a_guardar = f"=== RESUMEN DE RESPUESTAS ===\n• Rango de edad: {edad}\n• Estado civil:  {estado_civil}\n"
+datos_a_guardar = f"=== RESUMEN DE RESPUESTAS ===\n• Rango de edad: {st.session_state.edad_elegida}\n• Estado civil:  {st.session_state.civil_elegido}\n"
 
 st.download_button(
     label="📥 Descargar respuestas en mi PC",
