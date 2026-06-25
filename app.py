@@ -1,25 +1,28 @@
 import streamlit as st
 
-st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊")
+st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="centered")
 
 st.title("📊 Calculadora socio-económica")
-st.write("Por favor, responde a las siguientes preguntas en orden descendente:")
+st.write("Por favor, selecciona tus opciones:")
 
 st.write("---")
 
 # ==========================================
-# PREGUNTA 1: EDAD (Hacia abajo con su imagen)
+# PREGUNTA 1: EDAD (Opciones con imágenes al lado)
 # ==========================================
 st.markdown("### 1. Edad")
 
-# st.radio muestra las 3 opciones al mismo tiempo en pantalla
-edad = st.radio(
-    "Selecciona tu rango de edad:",
-    ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
-    key="edad_radio"
-)
+# Usamos columnas pequeñas para alinear la imagen al lado de la selección
+col_img1, col_opt1 = st.columns([1, 3])
 
-# Se asigna la imagen correspondiente a la opción seleccionada
+with col_opt1:
+    edad = st.radio(
+        "Selecciona tu rango de edad:",
+        ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
+        key="edad_radio"
+    )
+
+# Asignamos la imagen correspondiente según la selección para mostrarla al lado
 if edad == "de 20 a 40 años":
     imagen_edad = "edad_20.png"
 elif edad == "de 41 a 60 años":
@@ -27,26 +30,28 @@ elif edad == "de 41 a 60 años":
 else:
     imagen_edad = "edad_60.png"
 
-# Muestra la imagen de la edad seleccionada justo debajo
-st.image(imagen_edad, caption=f"Rango seleccionado: {edad}", width=350)
+with col_img1:
+    # Mostramos la imagen pequeña alineada a la izquierda
+    st.image(imagen_edad, width=100)
 
 
 st.write("---")
 
 
 # ==========================================
-# PREGUNTA 2: ESTADO CIVIL (Hacia abajo con su imagen)
+# PREGUNTA 2: ESTADO CIVIL (Opciones con imágenes al lado)
 # ==========================================
 st.markdown("### 2. Estado Civil")
 
-# También usamos st.radio para ver las opciones al mismo tiempo
-estado_civil = st.radio(
-    "Selecciona tu Estado Civil:",
-    ["Casado", "Soltero", "Viudo / Divorciado"],
-    key="civil_radio"
-)
+col_img2, col_opt2 = st.columns([1, 3])
 
-# Se asigna la imagen correspondiente al estado civil
+with col_opt2:
+    estado_civil = st.radio(
+        "Selecciona tu Estado Civil:",
+        ["Casado", "Soltero", "Viudo / Divorciado"],
+        key="civil_radio"
+    )
+
 if estado_civil == "Casado":
     imagen_civil = "estado_casado.png"
 elif estado_civil == "Soltero":
@@ -54,8 +59,9 @@ elif estado_civil == "Soltero":
 else:
     imagen_civil = "estado_divorciado.png"
 
-# Muestra la imagen del estado civil justo debajo
-st.image(imagen_civil, caption=f"Estado seleccionado: {estado_civil}", width=350)
+with col_img2:
+    # Mostramos la imagen pequeña alineada a la izquierda
+    st.image(imagen_civil, width=100)
 
 
 st.write("---")
