@@ -3,101 +3,100 @@ import streamlit as st
 st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="centered")
 
 # ==========================================
-# 🎨 REGLAS DE DISEÑO: PUNTO VERDE Y LETRAS NEGRAS
+# 🎨 REGLAS DE COLOR: BOTÓN SELECCIONADO EN VERDE
 # ==========================================
 st.markdown("""
     <style>
-        /* 1. Mantener las letras siempre negras/oscuras */
-        div[role="radiogroup"] label p {
-            color: #31333F !important;
-            font-weight: 500;
-            font-size: 1.1rem !important;
-            display: inline-flex;
-            align-items: center;
-        }
-
-        /* 2. Color Verde únicamente para el punto circular cuando está seleccionado */
-        div[role="radiogroup"] [data-checked="true"] > div:first-child {
-            border-color: #28a745 !important;
-        }
-        div[role="radiogroup"] [data-checked="true"] > div:first-child::after {
-            background-color: #28a745 !important;
-        }
-
-        /* 3. Ajustar el espacio de las filas para que la imagen quepa perfectamente */
-        div[role="radiogroup"] label {
-            padding: 10px 0px !important;
-            min-height: 65px !important;
-            display: flex !important;
-            align-items: center !important;
-        }
-        
-        /* Ocultar barra superior de Streamlit */
+        /* Desactivar el botón flotante de Deploy */
         .stDeployButton { display:none; }
+        
+        /* Ajustar espacios verticales */
+        div[data-testid="stHorizontalBlock"] {
+            align-items: center !important;
+            margin-bottom: 5px !important;
+        }
     </style>
 """, unsafe_allow_html=True)
 
 st.title("📊 Calculadora socio-económica")
-st.write("Selección única garantizada con un solo clic:")
+st.write("Selección única con un solo clic (Las imágenes y respuestas están juntas):")
 
 st.write("---")
 
 # ==========================================
-# PREGUNTA 1: EDAD (Imágenes inyectadas junto al texto)
+# PREGUNTA 1: EDAD (Selección Única - Un solo clic)
 # ==========================================
 st.markdown("### 1. Edad")
 
-# Creamos las opciones mezclando el HTML de tu imagen con el texto
-opciones_edad = [
-    f'<img src="app/static/edad_20.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> de 20 a 40 años',
-    f'<img src="app/static/edad_21.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> de 41 a 60 años',
-    f'<img src="app/static/edad_60.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> más de 60 años'
-]
+if "edad_final" not in st.session_state:
+    st.session_state.edad_final = "de 20 a 40 años"
 
-# Un solo st.radio controla todo -> Imposible seleccionar varias
-seleccion_edad_raw = st.radio(
-    "Edad",
-    opciones_edad,
-    key="radio_edad",
-    label_visibility="collapsed"
-)
+# Opción 1: 20 a 40 años
+col1_img, col1_btn = st.columns([1, 6])
+with col1_img:
+    st.image("edad_20.png", width=55)
+with col1_btn:
+    # Si está seleccionado, le ponemos un indicador visual limpio al texto del botón
+    label_1 = "🟢 de 20 a 40 años" if st.session_state.edad_final == "de 20 a 40 años" else "⚪ de 20 a 40 años"
+    if st.button(label_1, key="btn_e1", use_container_width=True):
+        st.session_state.edad_final = "de 20 a 40 años"
 
-# Limpiamos el HTML para guardar solo el texto limpio en tu archivo final
-if "20 a 40" in seleccion_edad_raw:
-    edad_final = "de 20 a 40 años"
-elif "41 a 60" in seleccion_edad_raw:
-    edad_final = "de 41 a 60 años"
-else:
-    edad_final = "más de 60 años"
+# Opción 2: 41 a 60 años
+col2_img, col2_btn = st.columns([1, 6])
+with col2_img:
+    st.image("edad_21.png", width=55)
+with col2_btn:
+    label_2 = "🟢 de 41 a 60 años" if st.session_state.edad_final == "de 41 a 60 años" else "⚪ de 41 a 60 años"
+    if st.button(label_2, key="btn_e2", use_container_width=True):
+        st.session_state.edad_final = "de 41 a 60 años"
+
+# Opción 3: más de 60 años
+col3_img, col3_btn = st.columns([1, 6])
+with col3_img:
+    st.image("edad_60.png", width=55)
+with col3_btn:
+    label_3 = "🟢 más de 60 años" if st.session_state.edad_final == "más de 60 años" else "⚪ más de 60 años"
+    if st.button(label_3, key="btn_e3", use_container_width=True):
+        st.session_state.edad_final = "más de 60 años"
 
 
 st.write("---")
 
 
 # ==========================================
-# PREGUNTA 2: ESTADO CIVIL (Imágenes inyectadas junto al texto)
+# PREGUNTA 2: ESTADO CIVIL (Selección Única - Un solo clic)
 # ==========================================
 st.markdown("### 2. Estado Civil")
 
-opciones_civil = [
-    f'<img src="app/static/estado_casado.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> Casado',
-    f'<img src="app/static/estado_soltero.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> Soltero',
-    f'<img src="app/static/estado_divorciado.png" width="45" style="margin-right:15px; vertical-align:middle; border-radius:4px;"> Viudo / Divorciado'
-]
+if "civil_final" not in st.session_state:
+    st.session_state.civil_final = "Casado"
 
-seleccion_civil_raw = st.radio(
-    "Estado Civil",
-    opciones_civil,
-    key="radio_civil",
-    label_visibility="collapsed"
-)
+# Opción 1: Casado
+col4_img, col4_btn = st.columns([1, 6])
+with col4_img:
+    st.image("estado_casado.png", width=55)
+with col4_btn:
+    label_c1 = "🟢 Casado" if st.session_state.civil_final == "Casado" else "⚪ Casado"
+    if st.button(label_c1, key="btn_c1", use_container_width=True):
+        st.session_state.civil_final = "Casado"
 
-if "Casado" in seleccion_civil_raw:
-    civil_final = "Casado"
-elif "Soltero" in seleccion_civil_raw:
-    civil_final = "Soltero"
-else:
-    civil_final = "Viudo / Divorciado"
+# Opción 2: Soltero
+col5_img, col5_btn = st.columns([1, 6])
+with col5_img:
+    st.image("estado_soltero.png", width=55)
+with col5_btn:
+    label_c2 = "🟢 Soltero" if st.session_state.civil_final == "Soltero" else "⚪ Soltero"
+    if st.button(label_c2, key="btn_c2", use_container_width=True):
+        st.session_state.civil_final = "Soltero"
+
+# Opción 3: Viudo / Divorciado
+col6_img, col6_btn = st.columns([1, 6])
+with col6_img:
+    st.image("estado_divorciado.png", width=55)
+with col6_btn:
+    label_c3 = "🟢 Viudo / Divorciado" if st.session_state.civil_final == "Viudo / Divorciado" else "⚪ Viudo / Divorciado"
+    if st.button(label_c3, key="btn_c3", use_container_width=True):
+        st.session_state.civil_final = "Viudo / Divorciado"
 
 
 st.write("---")
@@ -106,7 +105,7 @@ st.write("---")
 # ==========================================
 # BOTÓN DE DESCARGA
 # ==========================================
-datos_a_guardar = f"=== RESUMEN ===\nEdad: {edad_final}\nEstado Civil: {civil_final}"
+datos_a_guardar = f"=== RESUMEN ===\nEdad: {st.session_state.edad_final}\nEstado Civil: {st.session_state.civil_final}"
 
 st.download_button(
     label="📥 Descargar respuestas en mi PC",
