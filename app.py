@@ -3,55 +3,67 @@ import streamlit as st
 st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊")
 
 st.title("📊 Calculadora socio-económica")
-st.write("Por favor, selecciona tus opciones para ver los resultados:")
+st.write("Por favor, responde a las siguientes preguntas en orden descendente:")
 
 st.write("---")
 
-# Creamos dos columnas para poner las preguntas una al lado de la otra
-col_preg1, col_preg2 = st.columns(2)
+# ==========================================
+# PREGUNTA 1: EDAD (Hacia abajo con su imagen)
+# ==========================================
+st.markdown("### 1. Edad")
 
-with col_preg1:
-    st.markdown("### 1. Edad")
-    edad = st.selectbox(
-        "Selecciona tu rango de edad:",
-        ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
-        key="edad_select"
-    )
-    
-    # --- AQUÍ ASIGNAMOS TUS IMÁGENES DE EDAD ---
-    if edad == "de 20 a 40 años":
-        imagen_edad = "edad_20.png"
-    elif edad == "de 41 a 60 años":
-        imagen_edad = "edad_21.png"
-    else:
-        imagen_edad = "edad_60.png"
-        
-    # Mostramos tu imagen en la pantalla
-    st.image(imagen_edad, caption=f"Rango: {edad}", use_container_width=True)
+# st.radio muestra las 3 opciones al mismo tiempo en pantalla
+edad = st.radio(
+    "Selecciona tu rango de edad:",
+    ["de 20 a 40 años", "de 41 a 60 años", "más de 60 años"],
+    key="edad_radio"
+)
 
-with col_preg2:
-    st.markdown("### 2. Estado Civil")
-    estado_civil = st.selectbox(
-        "Selecciona tu Estado Civil:",
-        ["Casado", "Soltero", "Viudo / Divorciado"],
-        key="civil_select"
-    )
-    
-    # --- AQUÍ ASIGNAMOS TUS IMÁGENES DE ESTADO CIVIL ---
-    if estado_civil == "Casado":
-        imagen_civil = "estado_casado.png"
-    elif estado_civil == "Soltero":
-        imagen_civil = "estado_soltero.png"
-    else:
-        # Asumimos que para "Viudo / Divorciado" usas la de divorciado
-        imagen_civil = "estado_divorciado.png"
-        
-    # Mostramos tu imagen en la pantalla
-    st.image(imagen_civil, caption=f"Estado: {estado_civil}", use_container_width=True)
+# Se asigna la imagen correspondiente a la opción seleccionada
+if edad == "de 20 a 40 años":
+    imagen_edad = "edad_20.png"
+elif edad == "de 41 a 60 años":
+    imagen_edad = "edad_21.png"
+else:
+    imagen_edad = "edad_60.png"
+
+# Muestra la imagen de la edad seleccionada justo debajo
+st.image(imagen_edad, caption=f"Rango seleccionado: {edad}", width=350)
+
 
 st.write("---")
 
-# Botón para descargar el archivo de texto
+
+# ==========================================
+# PREGUNTA 2: ESTADO CIVIL (Hacia abajo con su imagen)
+# ==========================================
+st.markdown("### 2. Estado Civil")
+
+# También usamos st.radio para ver las opciones al mismo tiempo
+estado_civil = st.radio(
+    "Selecciona tu Estado Civil:",
+    ["Casado", "Soltero", "Viudo / Divorciado"],
+    key="civil_radio"
+)
+
+# Se asigna la imagen correspondiente al estado civil
+if estado_civil == "Casado":
+    imagen_civil = "estado_casado.png"
+elif estado_civil == "Soltero":
+    imagen_civil = "estado_soltero.png"
+else:
+    imagen_civil = "estado_divorciado.png"
+
+# Muestra la imagen del estado civil justo debajo
+st.image(imagen_civil, caption=f"Estado seleccionado: {estado_civil}", width=350)
+
+
+st.write("---")
+
+
+# ==========================================
+# BOTÓN DE DESCARGA
+# ==========================================
 datos_a_guardar = f"=== RESUMEN DE RESPUESTAS ===\n• Rango de edad: {edad}\n• Estado civil:  {estado_civil}\n"
 
 st.download_button(
