@@ -3,14 +3,14 @@ import streamlit as st
 st.set_page_config(page_title="Calculadora socio-económica", page_icon="📊", layout="centered")
 
 # ==========================================
-# 🎨 REGLAS DE DISEÑO
+# 🎨 REGLAS DE DISEÑO DEFINITIVAS
 # ==========================================
 st.markdown("""
     <style>
         /* Desactivar el botón flotante de Deploy */
         .stDeployButton { display:none; }
         
-        /* Ajustar espacios verticales para alinear imagen con botón */
+        /* Ajustar espacios verticales para alinear la imagen con el botón */
         div[data-testid="stHorizontalBlock"] {
             align-items: center !important;
             margin-bottom: 5px !important;
@@ -19,7 +19,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("📊 Calculadora socio-económica")
-st.write("Selección única con un solo clic (Las imágenes y respuestas están juntas):")
+st.write("Selección única con un solo clic:")
 
 st.write("---")
 
@@ -104,7 +104,7 @@ if "familia_final" not in st.session_state:
 
 col7_img, col7_btn = st.columns([1, 6])
 with col7_img:
-    st.image("familia_1.png", width=55) # Reemplazar luego por tu imagen real
+    st.image("familia_1.png", width=55)
 with col7_btn:
     label_f1 = "🟢 1-2 personas" if st.session_state.familia_final == "1-2 personas" else "⚪ 1-2 personas"
     if st.button(label_f1, key="btn_f1", use_container_width=True):
@@ -420,7 +420,7 @@ with col33_btn:
 st.write("---")
 
 # ==========================================
-# BOTÓN DE DESCARGA (Recopila todas las respuestas nuevas)
+# BOTÓN DE DESCARGA
 # ==========================================
 datos_a_guardar = (
     f"=== RESUMEN DE RESPUESTAS ===\n"
