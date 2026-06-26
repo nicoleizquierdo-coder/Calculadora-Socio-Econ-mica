@@ -16,6 +16,15 @@ st.markdown("""
             align-items: center !important;
             margin-bottom: 5px !important;
         }
+        
+        /* Estilo personalizado para el cuadro de resultados final */
+        .resultado-box {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #28a745;
+            margin-top: 20px;
+        }
     </style>
 """, unsafe_allow_html=True)
 
@@ -30,12 +39,25 @@ def cargar_imagen_segura(ruta, emoji_auxiliar):
         st.markdown(f"<h2 style='text-align: center; margin: 0; padding-bottom: 10px;'>{emoji_auxiliar}</h2>", unsafe_allow_html=True)
 
 st.title("📊 Calculadora socio-económica")
-st.write("Selección única con un solo clic:")
+st.write("Selección única con un solo clic y cálculo de porcentaje en tiempo real:")
 
 st.write("---")
 
+# Diccionarios de puntuación para los cálculos internos
+valores_edad = {"de 20 a 40 años": 1, "de 41 a 60 años": 2, "más de 61 años": 3}
+valores_civil = {"Casado": 1, "Soltero": 2, "Viudo / Divorciado": 3}
+valores_familia = {"1-2 personas": 1, "2-4 personas": 2, "5+ personas": 3}
+valores_educacion = {"Superior +": 1, "Superior": 2, "1-2 nivel": 3}
+valores_empleo = {"Propio": 1, "Formal": 2, "Desempleado": 3}
+valores_vehiculo = {"Si": 1, "N/A": 2, "No": 3}
+valores_seguro = {"Si": 1, "Si (Limitado)": 2, "No": 3}
+valores_material = {"Hormigón / Ladrillo": 1, "N/A": 2, "Madera, caña, etc.": 3}
+valores_tenencia = {"Propia": 1, "Rentada": 2, "Prestada": 3}
+valores_enfermedad = {"No": 1, "N/A": 2, "Si": 3}
+valores_seguridad = {"Si": 1, "N/A": 2, "No": 3}
+
 # ==========================================
-# PREGUNTA 1: EDAD (Modificado a más de 61 años)
+# PREGUNTA 1: EDAD (Peso: 1)
 # ==========================================
 st.markdown("### 1. Edad")
 if "edad_final" not in st.session_state:
@@ -63,7 +85,6 @@ col3_img, col3_btn = st.columns([1, 6])
 with col3_img:
     cargar_imagen_segura("edad_60.png", "👴")
 with col3_btn:
-    # Ajustado a más de 61 años
     label_3 = "🟢 más de 61 años" if st.session_state.edad_final == "más de 61 años" else "⚪ más de 61 años"
     if st.button(label_3, key="btn_e3", use_container_width=True):
         st.session_state.edad_final = "más de 61 años"
@@ -72,7 +93,7 @@ with col3_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 2: ESTADO CIVIL
+# PREGUNTA 2: ESTADO CIVIL (Peso: 1)
 # ==========================================
 st.markdown("### 2. Estado Civil")
 if "civil_final" not in st.session_state:
@@ -108,7 +129,7 @@ with col6_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 3: PERSONAS EN FAMILIA
+# PREGUNTA 3: PERSONAS EN FAMILIA (Peso: 1)
 # ==========================================
 st.markdown("### 3. Personas en familia")
 if "familia_final" not in st.session_state:
@@ -144,7 +165,7 @@ with col9_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 4: NIVEL EDUCATIVO
+# PREGUNTA 4: NIVEL EDUCATIVO (Peso: 1)
 # ==========================================
 st.markdown("### 4. Nivel educativo")
 if "educacion_final" not in st.session_state:
@@ -180,7 +201,7 @@ with col12_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 5: TIPO DE EMPLEO
+# PREGUNTA 5: TIPO DE EMPLEO (Peso: 1)
 # ==========================================
 st.markdown("### 5. Tipo de empleo")
 if "empleo_final" not in st.session_state:
@@ -216,7 +237,7 @@ with col15_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 6: TIENE VEHÍCULOS
+# PREGUNTA 6: TIENE VEHÍCULOS (Peso: 1)
 # ==========================================
 st.markdown("### 6. Tiene Vehículos")
 if "vehiculo_final" not in st.session_state:
@@ -252,7 +273,7 @@ with col18_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 7: TIENE SEGURO PRIVADO
+# PREGUNTA 7: TIENE SEGURO PRIVADO (Peso: 1)
 # ==========================================
 st.markdown("### 7. Tiene Seguro Privado")
 if "seguro_final" not in st.session_state:
@@ -288,7 +309,7 @@ with col21_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 8: MATERIALES DE LA VIVIENDA
+# PREGUNTA 8: MATERIALES DE LA VIVIENDA (Peso: 2)
 # ==========================================
 st.markdown("### 8. Materiales de la vivienda (Crítico)")
 if "material_final" not in st.session_state:
@@ -324,7 +345,7 @@ with col24_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 9: TENENCIA VIVIENDA
+# PREGUNTA 9: TENENCIA VIVIENDA (Peso: 2)
 # ==========================================
 st.markdown("### 9. Tenencia vivienda (Crítico)")
 if "tenencia_final" not in st.session_state:
@@ -360,7 +381,7 @@ with col27_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 10: EXISTENCIA DE ENFERMEDADES
+# PREGUNTA 10: EXISTENCIA DE ENFERMEDADES (Peso: 2)
 # ==========================================
 st.markdown("### 10. Existencia de Enfermedades (Crítico)")
 if "enfermedad_final" not in st.session_state:
@@ -396,7 +417,7 @@ with col30_btn:
 st.write("---")
 
 # ==========================================
-# PREGUNTA 11: SEGURIDAD SOCIAL
+# PREGUNTA 11: SEGURIDAD SOCIAL (Peso: 2)
 # ==========================================
 st.markdown("### 11. Seguridad Social (Crítico)")
 if "seguridad_social_final" not in st.session_state:
@@ -432,7 +453,42 @@ with col33_btn:
 st.write("---")
 
 # ==========================================
-# BOTÓN DE DESCARGA
+# 📊 CÁLCULOS MATEMÁTICOS DE PUNTUACIÓN Y REGLA DE 3
+# ==========================================
+# Suma Producto por pesos (1 a 7 multiplicado por 1, 8 a 11 multiplicado por 2)
+puntos_obtenidos = (
+    valores_edad[st.session_state.edad_final] * 1 +
+    valores_civil[st.session_state.civil_final] * 1 +
+    valores_familia[st.session_state.familia_final] * 1 +
+    valores_educacion[st.session_state.educacion_final] * 1 +
+    valores_empleo[st.session_state.empleo_final] * 1 +
+    valores_vehiculo[st.session_state.vehiculo_final] * 1 +
+    valores_seguro[st.session_state.seguro_final] * 1 +
+    valores_material[st.session_state.material_final] * 2 +
+    valores_tenencia[st.session_state.tenencia_final] * 2 +
+    valores_enfermedad[st.session_state.enfermedad_final] * 2 +
+    valores_seguridad[st.session_state.seguridad_social_final] * 2
+)
+
+# Regla de 3 directa sobre el máximo de 45 puntos
+porcentaje_final = (puntos_obtenidos * 100.0) / 45.0
+
+# Desplegar los resultados en pantalla en un contenedor visual estético
+st.markdown("### 📈 Resultado del Análisis")
+st.markdown(f"""
+    <div class="resultado-box">
+        <h4>Puntaje Acumulado: <b>{puntos_obtenidos} / 45 puntos</b></h4>
+        <h2>Porcentaje Socio-económico: <b>{porcentaje_final:.2f}%</b></h2>
+    </div>
+""", unsafe_allow_html=True)
+
+# Barra de progreso integrada de Streamlit (acepta valores de 0.0 a 1.0)
+st.progress(porcentaje_final / 100.0)
+
+st.write(" ")
+
+# ==========================================
+# BOTÓN DE DESCARGA (Incluye el porcentaje y los puntos en el reporte)
 # ==========================================
 datos_a_guardar = (
     f"=== RESUMEN DE RESPUESTAS ===\n"
@@ -447,11 +503,15 @@ datos_a_guardar = (
     f"9. Tenencia vivienda: {st.session_state.tenencia_final}\n"
     f"10. Existencia de Enfermedades: {st.session_state.enfermedad_final}\n"
     f"11. Seguridad Social: {st.session_state.seguridad_social_final}\n"
+    f"-----------------------------------------\n"
+    f"PUNTAJE TOTAL: {puntos_obtenidos} / 45\n"
+    f"PORCENTAJE FINAL: {porcentaje_final:.2f}%\n"
+    f"=========================================\n"
 )
 
 st.download_button(
-    label="📥 Descargar respuestas en mi PC",
+    label="📥 Descargar reporte de porcentaje (.txt)",
     data=datos_a_guardar,
-    file_name="resumen_calculadora.txt",
+    file_name="reporte_socio_economico.txt",
     mime="text/plain"
 )
