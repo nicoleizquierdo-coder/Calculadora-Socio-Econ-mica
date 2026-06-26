@@ -63,7 +63,7 @@ col3_img, col3_btn = st.columns([1, 6])
 with col3_img:
     cargar_imagen_segura("edad_60.png", "👴")
 with col3_btn:
-    label_3 = "🟢 más de 60 años" if st.session_state.edad_final == "más de 60 años" else "⚪ más de 60 años"
+    label_3 = "🟢 más de 61 años" if st.session_state.edad_final == "más de 60 años" else "⚪ más de 60 años"
     if st.button(label_3, key="btn_e3", use_container_width=True):
         st.session_state.edad_final = "más de 60 años"
         st.rerun()
